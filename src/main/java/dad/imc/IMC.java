@@ -59,12 +59,8 @@ public class IMC extends Application {
 	}
 
 	public void calculoIMC() {
-		if ((peso.get() == 0d) || (altura.get() == 0d))
-			IMC.set(0d);
-		else {
 			Double resultado = (peso.get() / (altura.get() * altura.get()) * 1000d);
 			IMC.set(Math.round(resultado * 10.0));
-		}
 	}
 
 	@Override
