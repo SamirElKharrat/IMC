@@ -26,7 +26,7 @@ import javafx.scene.control.ComboBox;
 public class IMC extends Application {
 
 	private TextField pesotxt, alturatxt;
-	private Label masacorporal, indice;
+	private Label indice, masacorporal;
 
 	private DoubleProperty peso = new SimpleDoubleProperty(0);
 	private StringProperty pesotxtProperty = new SimpleStringProperty();
@@ -34,24 +34,26 @@ public class IMC extends Application {
 	private StringProperty alturatxtProperty = new SimpleStringProperty();
 	private DoubleProperty IMC = new SimpleDoubleProperty(0);
 	private StringProperty imcProperty = new SimpleStringProperty();
+	
+	private StringProperty masacorporalProperty = new SimpleStringProperty();
 
 	public void IndicadorMasaCorporal() {
 
 		if (IMC.get() <= 0) {
-			indice.setText("(peso * altura^ 2)");
-			masacorporal.setText("Bajo Peso | Normal | Sobrepeso | Obeso");
+			indice.setText("IMC: (peso * altura^ 2)");
+			masacorporalProperty.set("Bajo Peso | Normal | Sobrepeso | Obeso");
 			
 
 		} else {
 			indice.setText("IMC: " + IMC.get());
 			if (IMC.get() < 18.5)
-				masacorporal.setText("Bajo Peso");
+				masacorporalProperty.set("Bajo Peso");
 			else if (IMC.get() >= 18.5 && IMC.get() < 25)
-				masacorporal.setText("Normal");
+				masacorporalProperty.set("Normal");
 			else if (IMC.get() >= 25 && IMC.get() < 30)
-				masacorporal.setText("Sobrepeso");
+				masacorporalProperty.set("Sobrepeso");
 			else
-				masacorporal.setText("Obeso");
+				masacorporalProperty.set("Obeso");
 		}
 
 	}
@@ -80,12 +82,10 @@ public class IMC extends Application {
 		HBox alturaBox = new HBox(5, new Label("Altura:"), alturatxt, new Label("cm"));
 		alturaBox.setAlignment(Pos.BASELINE_CENTER);
 
-		indice = new Label("(peso * altura^ 2)");
+		indice = new Label("IMC: (peso * altura^ 2)");
 
-		Label textoindice = new Label();
-		textoindice.setText("IMC:");
 
-		HBox indiceBox = new HBox(5, textoindice, indice);
+		HBox indiceBox = new HBox(5, indice);
 		indiceBox.setAlignment(Pos.BASELINE_CENTER);
 
 		masacorporal = new Label("Bajo Peso | Normal | Sobrepeso | Obeso");
@@ -98,15 +98,15 @@ public class IMC extends Application {
 		Bindings.bindBidirectional(alturatxtProperty, altura, new NumberStringConverter());
 		altura.addListener((o, ov, nv) -> calculoIMC());
 
-		imcProperty.bindBidirectional(textoindice.textProperty());
-		Bindings.bindBidirectional(imcProperty, IMC, new NumberStringConverter());
+		imcProperty.bindBidirectional(indice.textProperty());
+		masacorporalProperty.bindBidirectional(masacorporal.textProperty());
 		IMC.addListener((o, ov, nv) -> IndicadorMasaCorporal());
 
 		// creamos un panel con disposición vertical
 		VBox root = new VBox();
 		root.setSpacing(5);
 		root.setAlignment(Pos.CENTER);
-		root.getChildren().addAll(pesoBox, alturaBox, indiceBox, indice, masacorporal);
+		root.getChildren().addAll(pesoBox, alturaBox, indiceBox, masacorporal);
 
 		// creamos la escena
 		Scene escena = new Scene(root, 320, 200);
