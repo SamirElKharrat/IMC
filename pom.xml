@@ -7,7 +7,7 @@
       	<properties>
 		<maven.compiler.target>14</maven.compiler.target>
 		<maven.compiler.source>14</maven.compiler.source>
-		<exec.mainClass>dad.IMC.Main</exec.mainClass>
+		<exec.mainClass>dad.imc.Main</exec.mainClass>
 	</properties>
 
 	<dependencies>
